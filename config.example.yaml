@@ -1,3 +1,7 @@
+# Copy this file to weread-reading-note.config.yaml in your vault root,
+# or run: python3 scripts/setup_config.py --vault /path/to/your/vault
+#
+# Paths are relative to your Obsidian vault root unless absolute.
 input_dir: WeRead Exports
 reading_note_dir: Reading Notes
 atomic_note_dir: Atomic Notes

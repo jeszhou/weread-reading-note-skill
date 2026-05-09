@@ -19,6 +19,8 @@ weread-reading-note-skill/
   README.md
   LICENSE
   config.example.yaml
+  scripts/
+    setup_config.py
   skill/
     SKILL.md
     references/
@@ -32,9 +34,30 @@ weread-reading-note-skill/
 
 真正的 Skill 在 `skill/` 目录里。你可以把它复制到自己的 agent skills 目录，也可以按自己的命名习惯重命名。
 
-## 默认路径
+## 第一次配置
 
-默认假设你的 Obsidian vault 使用下面这些路径。都可以改：
+每个人同步微信读书的文件夹都不一样。安装后建议先在你的 Obsidian vault 根目录生成一份配置：
+
+```bash
+python3 /path/to/weread-reading-note-skill/scripts/setup_config.py --vault /path/to/your/obsidian-vault
+```
+
+脚本会问你四个路径：
+
+```text
+微信读书同步 Markdown 文件夹 [WeRead Exports]:
+整理后的读书笔记输出文件夹 [Reading Notes]:
+语义卡输出文件夹 [Atomic Notes]:
+封面图保存文件夹 [assets/book-covers]:
+```
+
+它会在 vault 根目录生成：
+
+```text
+weread-reading-note.config.yaml
+```
+
+配置内容类似：
 
 ```yaml
 input_dir: WeRead Exports
@@ -43,7 +66,13 @@ atomic_note_dir: Atomic Notes
 image_dir: assets/book-covers
 ```
 
-你可以在提示词里临时指定，也可以参考 `config.example.yaml` 改成自己的 vault 结构。
+如果你不想跑脚本，也可以复制 `config.example.yaml`，改名为 `weread-reading-note.config.yaml`，再手动填写自己的路径。
+
+Skill 执行时会按这个顺序找路径：
+
+1. 你在提示词里明确指定的路径。
+2. vault 根目录的 `weread-reading-note.config.yaml`。
+3. 如果前两者都没有，就现场问你输入和输出文件夹分别在哪里。
 
 ## 使用示例
 

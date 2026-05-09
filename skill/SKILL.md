@@ -16,7 +16,21 @@ This skill only reorganizes local Markdown files. It does not fetch, scrape, or 
 
 Ask for the source file if it is missing. Otherwise infer it from the user request.
 
-Default paths, unless the user overrides them:
+Resolve paths in this order:
+
+1. Paths explicitly provided in the user request.
+2. `weread-reading-note.config.yaml` in the current vault root.
+3. `.weread-reading-note.yaml` in the current vault root.
+4. Built-in defaults below.
+
+If no source file is given and no config file exists, ask the user for all required folders before proceeding:
+
+- WeRead sync folder for source Markdown files.
+- Reading note output folder.
+- Atomic note output folder.
+- Cover image output folder, if cover download is needed.
+
+Built-in defaults:
 
 ```yaml
 input_dir: WeRead Exports
@@ -28,7 +42,7 @@ image_dir: assets/book-covers
 Expected source pattern:
 
 ```text
-WeRead Exports/<book title>.md
+<input_dir>/<book title>.md
 ```
 
 The input usually contains frontmatter, a metadata section, `# 高亮划线`, optional `# 读书笔记`, and optional `# 本书评论`.
