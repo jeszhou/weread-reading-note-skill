@@ -1,0 +1,15 @@
+input_dir: WeRead Exports
+reading_note_dir: Reading Notes
+atomic_note_dir: Atomic Notes
+image_dir: assets/book-covers
+
+language: zh-CN
+download_cover: true
+atomic_note_count:
+  min: 5
+  max: 12
+
+overwrite_policy:
+  reading_note: replace
+  atomic_note: append_only
+  preserve_user_reflection: true
