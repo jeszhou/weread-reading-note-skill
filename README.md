@@ -10,6 +10,7 @@
 - 拆分书籍元数据、划线、划线评论和整本书书评。
 - 生成一份结构化的 Obsidian 读书笔记。
 - 生成 5-12 张语义卡，用来沉淀概念、心法或方法。
+- 生成语义卡前扫描已有读书笔记和语义卡，优先复用或更新已有概念。
 - 如果语义卡已经存在，只追加新来源，不覆盖用户自己写过的理解。
 
 ## 目录结构
@@ -36,7 +37,9 @@ weread-reading-note-skill/
 
 ## 第一次配置
 
-每个人同步微信读书的文件夹都不一样。安装后建议先在你的 Obsidian vault 根目录生成一份配置：
+每个人同步微信读书的文件夹都不一样。安装 Skill 通常只是复制文件，不会自动弹出对话询问路径。
+
+首次使用前，你可以先在自己的 Obsidian vault 根目录生成一份配置：
 
 ```bash
 python3 /path/to/weread-reading-note-skill/scripts/setup_config.py --vault /path/to/your/obsidian-vault
@@ -72,7 +75,10 @@ Skill 执行时会按这个顺序找路径：
 
 1. 你在提示词里明确指定的路径。
 2. vault 根目录的 `weread-reading-note.config.yaml`。
-3. 如果前两者都没有，就现场问你输入和输出文件夹分别在哪里。
+3. 旧版配置文件 `.weread-reading-note.yaml`。
+4. 如果前面都没有，就必须现场问你输入和输出文件夹分别在哪里。
+
+它不能在首次使用时静默写入 `WeRead Exports`、`Reading Notes`、`Atomic Notes` 这些默认目录。默认目录只能作为建议，必须经过你确认。
 
 ## 使用示例
 
@@ -153,6 +159,8 @@ Atomic Notes/<概念名>.md
 - 写作切入口
 
 其中 `我的理解` 默认留给用户自己写。已有语义卡重跑时，也不会覆盖这一段。
+
+生成新语义卡前，Skill 会先检查已有的 `Atomic Notes/` 和 `Reading Notes/`。如果发现近义、同义或跨领域同构的概念，会优先更新已有卡，或者在 `相关概念` 里互链，而不是每本书都新建一批孤立卡。
 
 ## 版权提醒
 

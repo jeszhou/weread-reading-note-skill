@@ -1,8 +1,8 @@
 interface:
   display_name: "WeRead Reading Note"
-  short_description: "Organize WeRead exports into Obsidian notes"
+  short_description: "Configure WeRead paths and connect concepts across books"
   brand_color: "#9A6B4B"
-  default_prompt: "Use $weread-reading-note to organize this WeRead Markdown export into a reading note and atomic notes."
+  default_prompt: "Use $weread-reading-note to configure paths, organize this WeRead Markdown export, and create cross-linked atomic notes."
 
 policy:
   allow_implicit_invocation: true
