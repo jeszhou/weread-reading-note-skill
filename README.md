@@ -2,7 +2,7 @@
 
 把微信读书同步到 Obsidian 的 Markdown，整理成一份结构清晰的读书笔记，并顺手生成一组可复用的语义卡。
 
-这个仓库提供的是一个可移植的 Codex / Agent Skill。它不会抓取、破解或下载微信读书内容，只处理你本来已经同步到本地 Obsidian vault 里的 Markdown 文件。
+这个仓库提供的是一个为 Claude Code 设计的可移植 Skill。它不会抓取、破解或下载微信读书内容，只处理你本来已经同步到本地 Obsidian vault 里的 Markdown 文件。如需在其他 Agent 中使用，可参考 `skill/agents/openai.yaml` 自行适配。
 
 ## 它能做什么
 
@@ -35,50 +35,49 @@ weread-reading-note-skill/
 
 真正的 Skill 在 `skill/` 目录里。你可以把它复制到自己的 agent skills 目录，也可以按自己的命名习惯重命名。
 
+## 安装
+
+把 `skill/` 目录复制到你的 Claude Code skills 目录：
+
+```bash
+cp -R skill ~/.claude/skills/weread-reading-note
+```
+
+其他 Agent 根据自己的 skills 目录调整路径即可。
+
 ## 第一次配置
 
-每个人同步微信读书的文件夹都不一样。安装 Skill 通常只是复制文件，不会自动弹出对话询问路径。
+**最简单的方法：什么都不用做。** 第一次运行 Skill 时，如果找不到配置文件，它会直接问你四个路径，确认后会询问是否保存为配置文件；保存后以后不用再回答。
 
-首次使用前，你可以先在自己的 Obsidian vault 根目录生成一份配置：
+如果想提前配置好，有两种方式：
+
+**方式一（推荐）：手动复制**
+
+把项目里的 `config.example.yaml` 复制到 vault 根目录，改名为 `weread-reading-note.config.yaml`，填入自己的路径：
+
+```yaml
+input_dir: WeRead Exports        # 微信读书同步 Markdown 文件夹
+reading_note_dir: Reading Notes  # 读书笔记输出文件夹
+atomic_note_dir: Atomic Notes    # 语义卡输出文件夹
+image_dir: assets/book-covers    # 封面图保存文件夹
+```
+
+**方式二：跑脚本**
 
 ```bash
 python3 /path/to/weread-reading-note-skill/scripts/setup_config.py --vault /path/to/your/obsidian-vault
 ```
 
-脚本会问你四个路径：
+脚本会逐一问你四个路径，确认后写入 `weread-reading-note.config.yaml`。
 
-```text
-微信读书同步 Markdown 文件夹 [WeRead Exports]:
-整理后的读书笔记输出文件夹 [Reading Notes]:
-语义卡输出文件夹 [Atomic Notes]:
-封面图保存文件夹 [assets/book-covers]:
-```
-
-它会在 vault 根目录生成：
-
-```text
-weread-reading-note.config.yaml
-```
-
-配置内容类似：
-
-```yaml
-input_dir: WeRead Exports
-reading_note_dir: Reading Notes
-atomic_note_dir: Atomic Notes
-image_dir: assets/book-covers
-```
-
-如果你不想跑脚本，也可以复制 `config.example.yaml`，改名为 `weread-reading-note.config.yaml`，再手动填写自己的路径。
-
-Skill 执行时会按这个顺序找路径：
+Skill 运行时按这个顺序查找路径：
 
 1. 你在提示词里明确指定的路径。
 2. vault 根目录的 `weread-reading-note.config.yaml`。
 3. 旧版配置文件 `.weread-reading-note.yaml`。
-4. 如果前面都没有，就必须现场问你输入和输出文件夹分别在哪里。
+4. 如果前面都没有，Skill 会直接问你。
 
-它不能在首次使用时静默写入 `WeRead Exports`、`Reading Notes`、`Atomic Notes` 这些默认目录。默认目录只能作为建议，必须经过你确认。
+默认路径（`WeRead Exports`、`Reading Notes`、`Atomic Notes`）只是建议值，不会被静默写入，必须经过你确认。
 
 ## 使用示例
 

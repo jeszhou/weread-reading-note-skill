@@ -7,12 +7,27 @@ reading_note_dir: Reading Notes
 atomic_note_dir: Atomic Notes
 image_dir: assets/book-covers
 
+# Output language for generated notes.
 language: zh-CN
+
+# Whether to embed the book cover image in the reading note.
 download_cover: true
+
+# Number of atomic notes to generate per book.
 atomic_note_count:
   min: 5
   max: 12
 
+# Controls overwrite behavior when output files already exist.
+# reading_note:
+#   replace  - overwrite the existing reading note on each run
+#   skip     - keep the existing file and do nothing
+# atomic_note:
+#   append_only - safe default; only adds new sources, never overwrites user content
+#   replace     - overwrite the entire file (not recommended)
+# preserve_user_reflection:
+#   true  - the "## 我的理解" section is never modified, even on replace
+#   false - allow overwriting user reflections (use with caution)
 overwrite_policy:
   reading_note: replace
   atomic_note: append_only
